@@ -5,6 +5,8 @@ import './PetSitting.dart';
 import 'PetAdoptionPage.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -13,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 82, 82, 86),
+      backgroundColor: const Color.fromARGB(255, 82, 82, 86),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(193, 104, 183, 232),
         centerTitle: true,
@@ -34,12 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
               'assets/11.png',
               height: 250,
             ),
-            Text(
+            const Text(
               'What are you looking for?',
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 180, 120, 232),
+                color: Color.fromARGB(255, 255, 255, 255),
               ),
             ),
             Column(
@@ -57,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>  PetSitting()),
+                            builder: (context) =>  const PetSitting()),
                       );
                     },
                 ),
@@ -79,10 +81,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>  PetAdoptionApp()),
+                            builder: (context) =>  const PetAdoptionApp()),
                       );
                   },
                 ),
+                  const SizedBox(height: 30),
               ],
             ),
           ],

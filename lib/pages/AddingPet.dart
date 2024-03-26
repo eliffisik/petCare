@@ -6,6 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import '../RoundedButton.dart';
 
 class AddingPet extends StatefulWidget {
+  const AddingPet({super.key});
+
   @override
   _AddingPetState createState() => _AddingPetState();
 }
@@ -37,7 +39,7 @@ class _AddingPetState extends State<AddingPet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 82, 82, 86),
+      backgroundColor: const Color.fromARGB(255, 82, 82, 86),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(193, 104, 183, 232),
         centerTitle: true,
@@ -55,7 +57,7 @@ class _AddingPetState extends State<AddingPet> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Add Your Pet',
               style: TextStyle(
                 fontSize: 18,
@@ -64,7 +66,7 @@ class _AddingPetState extends State<AddingPet> {
               ),
             ),
 
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             // Image upload area
             InkWell(
               onTap: pickImage,
@@ -82,35 +84,35 @@ class _AddingPetState extends State<AddingPet> {
                       : null,
                 ),
                 child: _image == null
-                    ? Icon(Icons.camera_alt, color: Colors.white70)
+                    ? const Icon(Icons.camera_alt, color: Colors.white70)
                     : null,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             // Pet name input field
             TextField(
               controller: _petNameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Your pet name',
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             // Pet breed input field
             TextField(
               controller: _petBreedController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Your pet breed', // Corrected the typo here
               ),
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               'Select category of your pet',
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 180, 120, 232),
+                color: Color.fromARGB(255, 255, 255, 255),
               ),
             ),
             Row(
@@ -185,7 +187,7 @@ class _AddingPetState extends State<AddingPet> {
             // ),
             // Add more fields as per your requirements
             // ...
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             RoundedButton(
               btnText: 'Add Your Pet',
               onBtnPressed: () {},

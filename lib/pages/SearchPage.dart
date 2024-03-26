@@ -14,9 +14,18 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 82, 82, 86),
+       backgroundColor: const Color.fromARGB(255, 82, 82, 86),
       appBar: AppBar(
-        title: const Text('Ara'),
+        backgroundColor: const Color.fromARGB(193, 104, 183, 232),
+        centerTitle: true,
+        elevation: 0,
+        title: const Text(
+          'Bakıcı Ara',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: Column(
         children: [

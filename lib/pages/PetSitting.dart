@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'Messaging.dart';
 
 class PetSitting extends StatefulWidget {
+  const PetSitting({super.key});
+
   @override
   _PetSittingState createState() => _PetSittingState();
 }
@@ -37,7 +39,7 @@ class _PetSittingState extends State<PetSitting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 82, 82, 86),
+      backgroundColor: const Color.fromARGB(255, 82, 82, 86),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(193, 104, 183, 232),
         centerTitle: true,
@@ -64,7 +66,7 @@ class _PetSittingState extends State<PetSitting> {
                 },
                 decoration: InputDecoration(
                   hintText: "Bakıcı Ara",
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -75,7 +77,7 @@ class _PetSittingState extends State<PetSitting> {
             ListView.builder(
               
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: petSitters.length,
               itemBuilder: (context, index) {
                 // Arama filtresine göre bakıcıları filtreleme
@@ -83,7 +85,7 @@ class _PetSittingState extends State<PetSitting> {
                     !petSitters[index].isim
                         .toLowerCase()
                         .contains(aramaTerimi.toLowerCase())) {
-                  return SizedBox();
+                  return const SizedBox();
                 }
                 return PetSitterCard(petSitter: petSitters[index], key: UniqueKey(),);
               },
@@ -128,7 +130,7 @@ class PetSitterCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
-       color: Color.fromARGB(193, 170, 191, 205),
+       color: const Color.fromARGB(193, 170, 191, 205),
         elevation: 4,
         child: Column(
           children: [
@@ -147,27 +149,27 @@ class PetSitterCard extends StatelessWidget {
                   children: [
                     Text(
                       petSitter.isim,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.star,
                           color: Colors.yellow,
                           size: 16,
                         ),
                         Text(
                           petSitter.puan.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                           ),
                         ),
                         Text(
-                          " (" + petSitter.yorumSayisi.toString() + " yorum)",
-                          style: TextStyle(
+                          " (${petSitter.yorumSayisi} yorum)",
+                          style: const TextStyle(
                             fontSize: 12,
                             color: Colors.grey,
                           ),
@@ -175,8 +177,8 @@ class PetSitterCard extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      petSitter.fiyat.toString() + " TL/saat",
-                      style: TextStyle(
+                      "${petSitter.fiyat} TL/saat",
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -186,7 +188,7 @@ class PetSitterCard extends StatelessWidget {
               ],
             ),
             // Bakıcı detayları
-            Divider(),
+            const Divider(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -194,19 +196,19 @@ class PetSitterCard extends StatelessWidget {
                 children: [
                   Text(
                     petSitter.sehir,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                     ),
                   ),
                   Text(
-                    petSitter.tecrube.toString() + " yıl tecrübe",
-                    style: TextStyle(
+                    "${petSitter.tecrube} yıl tecrübe",
+                    style: const TextStyle(
                       fontSize: 14,
                     ),
                   ),
                   Text(
                     petSitter.hizmetler.join(", "),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                     ),
                   ),
@@ -220,10 +222,10 @@ class PetSitterCard extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                shadowColor:  Color.fromARGB(193, 104, 183, 232),
-                backgroundColor: Color.fromARGB(193, 213, 223, 228), 
-                title: Text("Mesaj Gönder"),
-                content: Text("Bakıcıya mesaj göndermek istediğinize emin misiniz?"),
+                shadowColor:  const Color.fromARGB(193, 104, 183, 232),
+                backgroundColor: const Color.fromARGB(193, 213, 223, 228), 
+                title: const Text("Mesaj Gönder"),
+                content: const Text("Bakıcıya mesaj göndermek istediğinize emin misiniz?"),
                 actions: [
                   TextButton(
                                 onPressed: () {
@@ -236,20 +238,20 @@ class PetSitterCard extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: Text("Evet"),
+                                child: const Text("Evet"),
                               ),
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop(); // AlertDialog'ı kapat
                     },
-                    child: Text("Hayır"),
+                    child: const Text("Hayır"),
                   ),
                 ],
               );
             },
           );
         },
-        icon: Icon(Icons.message),
+        icon: const Icon(Icons.message),
         color: Colors.blue,
       ),
 

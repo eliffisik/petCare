@@ -21,9 +21,18 @@ class _ProfilePageState extends State<ProfilePage> {
               scaffoldBackgroundColor: const Color.fromARGB(255, 142, 142, 149), // Light mode background color
             ),
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Profilim'),
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(193, 104, 183, 232),
+        centerTitle: true,
+        elevation: 0,
+        title: const Text(
+          'Profilim',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+      ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -43,17 +52,17 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildProfileHeader() {
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const CircleAvatar(
+        CircleAvatar(
           radius: 40,
           backgroundImage: AssetImage('assets/images/profile.jpg'),
         ),
-        const SizedBox(width: 20),
+        SizedBox(width: 20),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text(
               'Kiara Josephon',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -103,8 +112,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _buildDarkModeSwitch() {
     return ListTile(
-      leading: Icon(Icons.nightlight_round),
-      title: Text('Koyu Mod'),
+      leading: const Icon(Icons.nightlight_round),
+      title: const Text('Koyu Mod'),
       trailing: Switch(
         value: _isDarkMode,
         onChanged: (value) {

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../RoundedButton.dart';
 
 class PetList extends StatefulWidget {
+  const PetList({super.key});
+
   @override
   _PetListState createState() => _PetListState();
 }
@@ -48,7 +50,7 @@ class _PetListState extends State<PetList> {
           padding: const EdgeInsets.all(8.0),
           child: TextField(
             controller: searchController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Hayvan türü veya ismi ara...',
                 prefixIcon: Icon(Icons.search, color: Colors.white),
               labelStyle: TextStyle(color: Colors.white),
@@ -72,8 +74,8 @@ class _PetListState extends State<PetList> {
             itemCount: filteredPetAds.length,
             itemBuilder: (context, index) {
               return Card(
-                color: Color.fromARGB(193, 170, 191, 205),
-                margin: EdgeInsets.all(8.0),
+                color: const Color.fromARGB(193, 170, 191, 205),
+                margin: const EdgeInsets.all(8.0),
                 child: ListTile(
                   leading: CircleAvatar(
                     backgroundImage: AssetImage(filteredPetAds[index]['image']),
@@ -96,6 +98,8 @@ class _PetListState extends State<PetList> {
 }
 
 class PetAdoptionApp extends StatelessWidget {
+  const PetAdoptionApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -104,66 +108,70 @@ class PetAdoptionApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: PetAdoptionPage(),
+      home: const PetAdoptionPage(),
     );
   }
 }
 
 class PetAdoptionPage extends StatelessWidget {
+  const PetAdoptionPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 82, 82, 86),
+      backgroundColor: const Color.fromARGB(255, 82, 82, 86),
       appBar: AppBar(
-        title: Text('Pet Adoption'),
+        title: const Text('Pet Adoption'),
       ),
-      body: PetList(), // PetList widgetini eklemeyi unutma
+      body: const PetList(), // PetList widgetini eklemeyi unutma
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Yeni ilan oluşturmak için bir sayfaya yönlendirme işlemi
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => NewAdoptionForm()),
+            MaterialPageRoute(builder: (context) => const NewAdoptionForm()),
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
 }
 
 class NewAdoptionForm extends StatelessWidget {
+  const NewAdoptionForm({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 82, 82, 86),
+      backgroundColor: const Color.fromARGB(255, 82, 82, 86),
       appBar: AppBar(
-        title: Text('Yeni Sahiplendirme İlanı'),
+        title: const Text('Yeni Sahiplendirme İlanı'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
+            const TextField(
               
               decoration: InputDecoration(labelText: 'Hayvan Türü',labelStyle: TextStyle(color: Colors.white),),
             ),
-            SizedBox(height: 12.0),
-            TextField(
+            const SizedBox(height: 12.0),
+            const TextField(
               decoration: InputDecoration(labelText: 'Yaş',labelStyle: TextStyle(color: Colors.white),),
               keyboardType: TextInputType.number,
             ),
-            SizedBox(height: 12.0),
-            TextField(
+            const SizedBox(height: 12.0),
+            const TextField(
               decoration: InputDecoration(labelText: 'Cinsiyet',labelStyle: TextStyle(color: Colors.white),),
             ),
-            SizedBox(height: 12.0),
-            TextField(
+            const SizedBox(height: 12.0),
+            const TextField(
               decoration: InputDecoration(labelText: 'Ek Bilgiler',labelStyle: TextStyle(color: Colors.white),),
               maxLines: null,
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             Center(
               child: RoundedButton(
                 btnText: 'Gönder',

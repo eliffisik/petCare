@@ -8,7 +8,7 @@ import './HomeScreen.dart';
 
 class FeedScreen extends StatefulWidget {
   
-  FeedScreen();
+  const FeedScreen({super.key});
 
   @override
   _FeedScreenState createState() => _FeedScreenState();
@@ -22,11 +22,11 @@ class _FeedScreenState extends State<FeedScreen> {
   void initState() {
     super.initState();
 _screens = [
-      HomeScreen(),
-      AddingPet(),
-      PostAdd(),
-      SearchPage(),
-      ProfilePage(),
+      const HomeScreen(),
+      const AddingPet(),
+      const PostAdd(),
+      const SearchPage(),
+      const ProfilePage(),
 
 
      
@@ -47,7 +47,7 @@ _screens = [
           });
         },
         currentIndex: _selectedTab,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '',
@@ -72,8 +72,8 @@ _screens = [
             label: '',
           ),
         ],
-        selectedItemColor: Color.fromARGB(193, 101, 181, 231),
-        unselectedItemColor: Color.fromARGB(193, 101, 181, 231),
+        selectedItemColor: const Color.fromARGB(193, 101, 181, 231),
+        unselectedItemColor: const Color.fromARGB(193, 101, 181, 231),
       ),
     );
   }

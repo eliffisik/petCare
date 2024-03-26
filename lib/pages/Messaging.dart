@@ -5,7 +5,7 @@ import 'PetSitting.dart';
 class Messaging extends StatefulWidget {
   final PetSitter petSitter;
 
-  Messaging({required this.petSitter});
+  const Messaging({super.key, required this.petSitter});
 
   @override
   _MessagingState createState() => _MessagingState();
@@ -13,15 +13,15 @@ class Messaging extends StatefulWidget {
 
 class _MessagingState extends State<Messaging> {
   final TextEditingController _messageController = TextEditingController();
-  List<Message> _messages = []; // Store messages here
+  final List<Message> _messages = []; // Store messages here
 
   @override
   Widget build(BuildContext context) {
     
     return Scaffold(
-       backgroundColor: Color.fromARGB(255, 109, 109, 113),
+       backgroundColor: const Color.fromARGB(255, 109, 109, 113),
       appBar: AppBar(
-        title: Text("Mesajlaşma"),
+        title: const Text("Mesajlaşma"),
       ),
       body: Column(
         children: [
@@ -30,7 +30,7 @@ class _MessagingState extends State<Messaging> {
             
             padding: const EdgeInsets.all(8.0),
             child: Card(
-              color: Color.fromARGB(193, 170, 191, 205),
+              color: const Color.fromARGB(193, 170, 191, 205),
               child: Padding(
                 
                 padding: const EdgeInsets.all(8.0),
@@ -42,26 +42,26 @@ class _MessagingState extends State<Messaging> {
                    
                     Text(
                       "Bakıcı: ${widget.petSitter.isim}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       "Şehir: ${widget.petSitter.sehir}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                       ),
                     ),
                     Text(
                       "Tecrübe: ${widget.petSitter.tecrube.toString()} yıl",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                       ),
                     ),
                     Text(
                       "Hizmetler: ${widget.petSitter.hizmetler.join(", ")}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                       ),
                     ),
@@ -92,7 +92,7 @@ class _MessagingState extends State<Messaging> {
                 Expanded(
                   child: TextField(
                     controller: _messageController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: "Mesajınızı yazın...",
                       border: OutlineInputBorder(),
                     ),
@@ -109,7 +109,7 @@ class _MessagingState extends State<Messaging> {
                       });
                     }
                   },
-                  icon: Icon(Icons.send),
+                  icon: const Icon(Icons.send),
                 ),
               ],
             ),
@@ -124,7 +124,7 @@ class MessageBubble extends StatelessWidget {
   final String message;
   final bool isSender;
 
-  MessageBubble({required this.message, required this.isSender});
+  const MessageBubble({super.key, required this.message, required this.isSender});
 
   @override
   Widget build(BuildContext context) {
@@ -138,15 +138,15 @@ class MessageBubble extends StatelessWidget {
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(isSender ? 15 : 0),
               topRight: Radius.circular(isSender ? 0 : 15),
-              bottomLeft: Radius.circular(15),
-              bottomRight: Radius.circular(15),
+              bottomLeft: const Radius.circular(15),
+              bottomRight: const Radius.circular(15),
             ),
             color: isSender ? Colors.blue[100] : Colors.grey[200],
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 message,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
