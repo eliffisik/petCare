@@ -37,22 +37,23 @@ class _AddingPetState extends State<AddingPet> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 82, 82, 86),
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(193, 104, 183, 232),
-        centerTitle: true,
-        elevation: 0,
-        title: const Text(
-          'AddPet',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: const Color.fromARGB(255, 82, 82, 86),
+    appBar: AppBar(
+      backgroundColor: const Color.fromARGB(193, 104, 183, 232),
+      centerTitle: true,
+      elevation: 0,
+      title: const Text(
+        'AddPet',
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
         ),
       ),
-      body: Padding(
+    ),
+    body: SingleChildScrollView(
+      child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,16 +72,16 @@ class _AddingPetState extends State<AddingPet> {
             InkWell(
               onTap: pickImage,
               child: Container(
-                width: 150,
-                height: 150,
+                width: 100,
+                height: 100,
                 decoration: BoxDecoration(
-                  color: Colors.grey, // Placeholder for image upload
+                  color: Colors.grey, 
                   borderRadius: BorderRadius.circular(10),
                   image: _image != null
                       ? DecorationImage(
-                          image: FileImage(_image!),
-                          fit: BoxFit.cover,
-                        )
+                    image: FileImage(_image!),
+                    fit: BoxFit.cover,
+                  )
                       : null,
                 ),
                 child: _image == null
@@ -88,7 +89,7 @@ class _AddingPetState extends State<AddingPet> {
                     : null,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             // Pet name input field
             TextField(
               controller: _petNameController,
@@ -97,16 +98,16 @@ class _AddingPetState extends State<AddingPet> {
                 labelText: 'Your pet name',
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             // Pet breed input field
             TextField(
               controller: _petBreedController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Your pet breed', // Corrected the typo here
+                labelText: 'Your pet breed', 
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height:60),
             const Text(
               'Select category of your pet',
               style: TextStyle(
@@ -126,7 +127,7 @@ class _AddingPetState extends State<AddingPet> {
                     padding: const EdgeInsets.all(8.0),
                     child: Image.asset(
                       'assets/8.png',
-                      height: 75,
+                      height: 50,
                     ),
                   ),
                 ),
@@ -138,7 +139,7 @@ class _AddingPetState extends State<AddingPet> {
                     padding: const EdgeInsets.all(8.0),
                     child: Image.asset(
                       'assets/9.png',
-                      height: 75,
+                      height: 50,
                     ),
                   ),
                 ),
@@ -150,7 +151,7 @@ class _AddingPetState extends State<AddingPet> {
                     padding: const EdgeInsets.all(8.0),
                     child: Image.asset(
                       'assets/13.png',
-                      height: 75,
+                      height: 50,
                     ),
                   ),
                 ),
@@ -162,7 +163,7 @@ class _AddingPetState extends State<AddingPet> {
                     padding: const EdgeInsets.all(8.0),
                     child: Image.asset(
                       'assets/14.png',
-                      height: 75,
+                      height: 50,
                     ),
                   ),
                 ),
@@ -195,6 +196,7 @@ class _AddingPetState extends State<AddingPet> {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }

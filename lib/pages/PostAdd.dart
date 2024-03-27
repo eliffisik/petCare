@@ -19,36 +19,54 @@ class _PostAddState extends State<PostAdd> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: Color.fromARGB(255, 82, 82, 86),
+     backgroundColor: const Color.fromARGB(255, 82, 82, 86), 
       appBar: AppBar(
-        title: const Text('Post Oluştur'),
+        title: const Text('Share Your Animal Story', style: TextStyle(fontSize: 20)),
+        backgroundColor:  const Color.fromARGB(193, 104, 183, 232),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              // Başlık
+              // Background image (optional)
+              // Container(
+              //   decoration: BoxDecoration(
+              //     image: DecorationImage(
+              //       image: AssetImage('assets/images/forest_background.jpg'),
+              //       fit: BoxFit.cover,
+              //       opacity: 0.2, // Adjust opacity as needed
+              //     ),
+              //   ),
+              //   child: // Rest of the content
+              // ),
+
+              // Title field
               TextField(
-                
                 controller: _baslikController,
                 decoration: InputDecoration(
                   labelText: 'Başlık',
-                  border: OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.title), // Add icon
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                 ),
               ),
               const SizedBox(height: 16.0),
-              // İçerik
+
+              // Content field
               TextField(
                 controller: _icerikController,
                 maxLines: 5,
                 decoration: InputDecoration(
                   labelText: 'İçerik',
-                  border: OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.edit), // Add icon
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                 ),
               ),
               const SizedBox(height: 16.0),
-              // Resim seçme
               _resim != null
                   ? Image.file(File(_resim!.path))
                   : IconButton(
@@ -59,19 +77,32 @@ class _PostAddState extends State<PostAdd> {
                         );
                         setState(() {});
                       },
-                      icon: const Icon(Icons.add_photo_alternate),
+                      icon: Column(
+                        mainAxisSize: MainAxisSize.min, // Center icon vertically
+                        children: [
+                          const Icon(Icons.add_photo_alternate),
+                        
+                        ],
+                      ),
                     ),
               const SizedBox(height: 16.0),
-              // Gönderme butonu
+
+              // Optional animal type and location fields
+           
+
+              // Post button
               ElevatedButton(
                 onPressed: () {
-                  // Gönderme işlemini buraya yazabilirsiniz
-                  // Örneğin, API'ye post isteği yapabilirsiniz
-                  // ...
-
+                  // Your post submission logic here
                   Navigator.pop(context);
                 },
                 child: const Text('Gönder'),
+                style: ElevatedButton.styleFrom(
+                  primary:  const Color.fromARGB(193, 104, 183, 232),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
               ),
             ],
           ),
