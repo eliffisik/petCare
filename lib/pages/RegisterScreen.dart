@@ -63,22 +63,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 142, 142, 149),
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(193, 104, 183, 232),
-        centerTitle: true,
-        elevation: 0,
-        title: const Text(
-          'Register',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: const Color.fromARGB(255, 142, 142, 149),
+    appBar: AppBar(
+      backgroundColor: const Color.fromARGB(193, 104, 183, 232),
+      centerTitle: true,
+      elevation: 0,
+      title: const Text(
+        'Register',
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
         ),
       ),
-      body: Padding(
+    ),
+    body: SingleChildScrollView(
+      child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -160,6 +161,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 }

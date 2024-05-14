@@ -14,12 +14,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _emailController = TextEditingController();
 
-   final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
-     final _passwordController = TextEditingController();
-      Future loginUser(  
-    String email,  
+  Future loginUser(
+    String email,
     String password,
   ) async {
     Uri url = Uri.parse('http://10.0.2.2:5000/api/Account/authenticate');
@@ -37,11 +37,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (response.statusCode == 200) {
         print('Login successful!');
-         Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>  const FeedScreen()),
-                      );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const FeedScreen()),
+        );
         // Handle successful registration (e.g., navigate to login screen)
       } else {
         print('Login failed: ${response.statusCode}');
@@ -52,6 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // Handle network or other errors
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,54 +68,57 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                icon: Icon(Icons.email),
-              ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-
-            const SizedBox(height: 20),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-                icon: Icon(Icons.lock),
-              ),
-              obscureText: true,
-            ),
-
+      body: SingleChildScrollView( 
         
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                String email = _emailController.text;
-                String password = _passwordController.text;
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center, 
+              
+              children: [
+                TextField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    icon: Icon(Icons.email),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: _passwordController,
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
+                    icon: Icon(Icons.lock),
+                  ),
+                  obscureText: true,
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    String email = _emailController.text;
+                    String password = _passwordController.text;
 
-                await loginUser(email, password);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(193, 104, 183, 232),
-              ),
-              child: const Text('Login'),
+                    await loginUser(email, password);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(193, 104, 183, 232),
+                  ),
+                  child: const Text('Login'),
+                ),
+                const SizedBox(height: 20),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Navigate back to the login screen
+                  },
+                  child: const Text('Already have an account? Login here'),
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Navigate back to the login screen
-              },
-              child: const Text('Already have an account? Login here'),
-            ),
-          ],
+          ),
         ),
-      ),
-    );
+      );
+    
   }
 }

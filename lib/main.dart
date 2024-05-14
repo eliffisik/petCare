@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   return MaterialApp(
     debugShowCheckedModeBanner: false,
     theme:ThemeData.light(),
-  home:const WelcomeScreen(),
+  home:const FeedScreen(),
  
   );
     
