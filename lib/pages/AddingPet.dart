@@ -1,13 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../RoundedButton.dart';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class AddingPet extends StatefulWidget {
-  const AddingPet({super.key});
-
   @override
   _AddingPetState createState() => _AddingPetState();
 }
@@ -17,186 +14,80 @@ class _AddingPetState extends State<AddingPet> {
   final _petNameController = TextEditingController();
   final _petBreedController = TextEditingController();
   String? _selectedPetCategory;
+  List<String> _categories = ['Dog', 'Cat', 'Bird', 'Rabbit']; 
 
-  Future<void> pickImage() async {
-    try {
-      final pickedFile =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
+  @override
+  void initState() {
+    super.initState();
+    // Normally you would fetch categories here
+  }
 
-      setState(() {
-        if (pickedFile != null) {
-          print("Image picked: ${pickedFile.path}");
-          _image = File(pickedFile.path);
-        } else {
-          print("Image picking canceled");
-        }
-      });
-    } catch (e) {
-      print("Error picking image: $e");
+  Future<void> addPet() async {
+    if (_selectedPetCategory == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select a category")));
+      return;
+    }
+    var url = Uri.parse('http://10.0.2.2:5000/api/Pet/Post'); 
+    var response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'name': _petNameController.text,
+        'breed': _petBreedController.text,
+        'categoryId': int.tryParse(_selectedPetCategory!) ?? 0, 
+        'imagePath': _image?.path ?? '',
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print("Pet added successfully!");
+    } else {
+      print("Failed to add pet: ${response.body}");
     }
   }
 
   @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    backgroundColor: const Color.fromARGB(255, 82, 82, 86),
-    appBar: AppBar(
-      backgroundColor: const Color.fromARGB(193, 104, 183, 232),
-      centerTitle: true,
-      elevation: 0,
-      title: const Text(
-        'AddPet',
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: const Color.fromARGB(255, 82, 82, 86),
+      appBar: 
+      AppBar(
+        title: Text('Add Your Pet')
+        
+        
         ),
-      ),
-    ),
-    body: SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Add Your Pet',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(193, 104, 183, 232),
-              ),
-            ),
-
-            const SizedBox(height: 10),
-            // Image upload area
-            InkWell(
-              onTap: pickImage,
-              child: Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Colors.grey, 
-                  borderRadius: BorderRadius.circular(10),
-                  image: _image != null
-                      ? DecorationImage(
-                    image: FileImage(_image!),
-                    fit: BoxFit.cover,
-                  )
-                      : null,
-                ),
-                child: _image == null
-                    ? const Icon(Icons.camera_alt, color: Colors.white70)
-                    : null,
-              ),
-            ),
-            const SizedBox(height: 20),
-            // Pet name input field
+          children: <Widget>[
             TextField(
               controller: _petNameController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Your pet name',
-              ),
+              decoration: InputDecoration(labelText: 'Pet Name'),
             ),
-            const SizedBox(height: 20),
-            // Pet breed input field
             TextField(
               controller: _petBreedController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Your pet breed', 
-              ),
+              decoration: InputDecoration(labelText: 'Pet Breed'),
             ),
-            const SizedBox(height:60),
-            const Text(
-              'Select category of your pet',
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
+            DropdownButton<String>(
+              value: _selectedPetCategory,
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedPetCategory = newValue;
+                });
+              },
+              items: _categories.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    print('Image 1 tapped');
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      'assets/8.png',
-                      height: 50,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    print('Image 2 tapped');
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      'assets/9.png',
-                      height: 50,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    print('Image 3 tapped');
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      'assets/13.png',
-                      height: 50,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    print('Image 4 tapped');
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      'assets/14.png',
-                      height: 50,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            // Pet category dropdown field
-            // DropdownButton<String>(
-            //   hint: Text('Select category of your pet'),
-            //   value: _selectedPetCategory,
-            //   items: <String>['Dog', 'Cat', 'Bird', 'Rabbit', 'Other']
-            //       .map<DropdownMenuItem<String>>((String value) {
-            //     return DropdownMenuItem<String>(
-            //       value: value,
-            //       child: Text(value),
-            //     );
-            //   }).toList(),
-            //   onChanged: (String? newValue) {
-            //     setState(() {
-            //       _selectedPetCategory = newValue;
-            //     });
-            //   },
-            // ),
-            // Add more fields as per your requirements
-            // ...
-            const SizedBox(height: 10),
-            RoundedButton(
-              btnText: 'Add Your Pet',
-              onBtnPressed: () {},
+            ElevatedButton(
+              onPressed: addPet,
+              child: Text('Add Your Pet'),
             ),
           ],
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

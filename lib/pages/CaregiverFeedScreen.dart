@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:petcare/pages/AddingPet.dart';
+import 'package:petcare/pages/CaregiverHomeScreen.dart';
 import 'package:petcare/pages/PostAdd.dart';
 import 'package:petcare/pages/ProfilePage.dart';
 import 'package:petcare/pages/SearchPage.dart';
-import './HomeScreen.dart';
 
-class FeedScreen extends StatefulWidget {
+class CaregiverFeedScreen extends StatefulWidget {
   final String token;
   final String userId;
   final String userName;
@@ -14,7 +14,7 @@ class FeedScreen extends StatefulWidget {
   final String email;
   final bool isCaretaker;
 
-  const FeedScreen({
+  const CaregiverFeedScreen({
     Key? key,
     required this.token,
     required this.userId,
@@ -26,10 +26,10 @@ class FeedScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _FeedScreenState createState() => _FeedScreenState();
+  _CaregiverFeedScreenState createState() => _CaregiverFeedScreenState();
 }
 
-class _FeedScreenState extends State<FeedScreen> {
+class _CaregiverFeedScreenState extends State<CaregiverFeedScreen> {
   int _selectedTab = 0;
 
   late List<Widget> _screens;
@@ -38,18 +38,19 @@ class _FeedScreenState extends State<FeedScreen> {
   void initState() {
     super.initState();
     _screens = [
-      const HomeScreen(),
-      AddingPet(),
-      const PostAdd(),
-      const SearchPage(),
-      ProfilePage(
-        userId: widget.userId,
-        userName: widget.userName,
-        firstName: widget.firstName,
-        lastName: widget.lastName,
-        email: widget.email,
-        isCaretaker: widget.isCaretaker,
+      CaregiverHomeScreen(
+    
       ),
+      AddingPet(
+       
+      ),
+      PostAdd(
+      
+      ),
+      SearchPage(
+        
+      ),
+      
     ];
   }
 

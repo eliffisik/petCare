@@ -46,7 +46,7 @@ class _PostAddState extends State<PostAdd> {
                 controller: _baslikController,
                 decoration: InputDecoration(
                   labelText: 'Başlık',
-                  prefixIcon: const Icon(Icons.title), // Add icon
+                  prefixIcon: const Icon(Icons.title), 
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -60,7 +60,7 @@ class _PostAddState extends State<PostAdd> {
                 maxLines: 5,
                 decoration: InputDecoration(
                   labelText: 'İçerik',
-                  prefixIcon: const Icon(Icons.edit), // Add icon
+                  prefixIcon: const Icon(Icons.edit),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -87,13 +87,13 @@ class _PostAddState extends State<PostAdd> {
                     ),
               const SizedBox(height: 16.0),
 
-              // Optional animal type and location fields
+            
            
 
-              // Post button
+             
               ElevatedButton(
                 onPressed: () {
-                  // Your post submission logic here
+                  
                   Navigator.pop(context);
                 },
                 child: const Text('Gönder'),

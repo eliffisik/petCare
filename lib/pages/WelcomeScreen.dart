@@ -16,7 +16,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 142, 142, 149),
+     // backgroundColor: const Color.fromARGB(255, 142, 142, 149),
+       backgroundColor: const Color.fromARGB(255, 82, 82, 86),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -29,7 +30,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     width: MediaQuery.of(context).size.width,
                   ),
                   Image.asset(
-                    'assets/3.png',
+                    'assets/11.png',
                     height:350,
                   ),
                 ],

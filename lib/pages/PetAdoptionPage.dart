@@ -16,9 +16,9 @@ class _PetListState extends State<PetList> {
       'age': '2',
       'gender': 'Erkek',
       'additionalInfo': 'Kısırlaştırılmış, aşıları tam',
-      'image': 'assets/dog.jpg', // Örnek bir görsel yolunu temsil ediyor
-      'name': 'Max', // Köpeğin ismi
-      'location': 'İstanbul', // İlanın konumu
+      'image': 'assets/dog.jpg', 
+      'name': 'Max', 
+      'location': 'İstanbul', 
     },
     {
       'type': 'Kedi',
@@ -29,7 +29,7 @@ class _PetListState extends State<PetList> {
       'name': 'Luna',
       'location': 'Ankara',
     },
-    // Buraya istediğiniz kadar ilan ekleyebilirsiniz
+  
   ];
 
   List<Map<String, dynamic>> filteredPetAds = [];
@@ -85,7 +85,7 @@ class _PetListState extends State<PetList> {
                   subtitle: Text(
                       '${filteredPetAds[index]['age']} yaşında, ${filteredPetAds[index]['gender']}, ${filteredPetAds[index]['location']}'),
                   onTap: () {
-                    // İlan detaylarına gitme işlemi
+                  
                   },
                 ),
               );
@@ -123,10 +123,10 @@ class PetAdoptionPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Pet Adoption'),
       ),
-      body: const PetList(), // PetList widgetini eklemeyi unutma
+      body: const PetList(), 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Yeni ilan oluşturmak için bir sayfaya yönlendirme işlemi
+        
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const NewAdoptionForm()),
@@ -176,7 +176,7 @@ class NewAdoptionForm extends StatelessWidget {
               child: RoundedButton(
                 btnText: 'Gönder',
                 onBtnPressed: () {
-                  // Formu gönderme işlemi
+                 
                   Navigator.pop(context);
                 },
               ),

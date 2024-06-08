@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'Messaging.dart';
 
@@ -10,31 +12,44 @@ class PetSitting extends StatefulWidget {
 }
 
 class _PetSittingState extends State<PetSitting> {
-  List<PetSitter> petSitters = [
-    PetSitter(
-      isim: "Ayşe",
-      resim: "assets/pet_sitter_1.png",
-      puan: 4.8,
-      yorumSayisi: 120,
-      fiyat: 50,
-      sehir: "İstanbul",
-      tecrube: 5,
-      hizmetler: ["Yürüyüş", "Oyun Oynama"],
-    ),
-    PetSitter(
-      isim: "Mehmet",
-      resim: "assets/pet_sitter_2.png",
-      puan: 4.5,
-      yorumSayisi: 50,
-      fiyat: 40,
-      sehir: "Ankara",
-      tecrube: 3,
-      hizmetler: ["Yürüyüş", "Ev Temizliği"],
-    ),
-    // Diğer bakıcılar buraya eklenebilir.
-  ];
-
+  List<PetSitter> petSitters = [];
   String aramaTerimi = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchPetSitters();
+  }
+
+  Future<void> _fetchPetSitters() async {
+    final String apiUrl = "http://10.0.2.2:5000/api/CaretakerInfo?PageNumber=1&PageSize=100"; 
+
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      final List<dynamic> petSittersData = data['data']; 
+
+      setState(() {
+        petSitters = petSittersData.map((item) => PetSitter.fromJson(item)).toList();
+      });
+    } else {
+      // Handle error
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Error"),
+          content: const Text("Failed to fetch data. Please try again."),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("OK"),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +70,7 @@ class _PetSittingState extends State<PetSitting> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Arama çubuğu
+          
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
@@ -75,14 +90,13 @@ class _PetSittingState extends State<PetSitting> {
             ),
             // Bakıcı listesi
             ListView.builder(
-              
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: petSitters.length,
               itemBuilder: (context, index) {
                 // Arama filtresine göre bakıcıları filtreleme
                 if (aramaTerimi.isNotEmpty &&
-                    !petSitters[index].isim
+                    !petSitters[index].firstName
                         .toLowerCase()
                         .contains(aramaTerimi.toLowerCase())) {
                   return const SizedBox();
@@ -98,28 +112,41 @@ class _PetSittingState extends State<PetSitting> {
 }
 
 class PetSitter {
-  String isim;
-  String resim;
-  double puan;
-  int yorumSayisi;
-  int fiyat;
-  String sehir;
-  int tecrube;
-  List<String> hizmetler;
+  String firstName;
+  String lastName;
+  double rating;
+  int reviewCount;
+  double hourlyRate;
+  String city;
+  int yearsOfExperience;
+  List<String> skills;
 
   PetSitter({
-    required this.isim,
-    required this.resim,
-    required this.puan,
-    required this.yorumSayisi,
-    required this.fiyat,
-    required this.sehir,
-    required this.tecrube,
-    required this.hizmetler,
+    required this.firstName,
+    required this.lastName,
+    required this.rating,
+    required this.reviewCount,
+    required this.hourlyRate,
+    required this.city,
+    required this.yearsOfExperience,
+    required this.skills,
   });
+
+  factory PetSitter.fromJson(Map<String, dynamic> json) {
+    return PetSitter(
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      rating: json['rating'] ?? 4.5,
+      reviewCount: json['reviewCount'] ?? 0,
+      hourlyRate: json['hourlyRate'].toDouble(),
+      city: json['city'],
+      yearsOfExperience: json['yearsOfExperience'],
+      skills: List<String>.from(json['skills'].split(',')),
+    );
+  }
 }
 
-// Bakıcı kartı widget'ı
+
 class PetSitterCard extends StatelessWidget {
   final PetSitter petSitter;
 
@@ -130,7 +157,7 @@ class PetSitterCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
-       color: const Color.fromARGB(193, 170, 191, 205),
+        color: const Color.fromARGB(193, 170, 191, 205),
         elevation: 4,
         child: Column(
           children: [
@@ -141,14 +168,14 @@ class PetSitterCard extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
                     radius: 30,
-                    backgroundImage: AssetImage(petSitter.resim), // Resim yolunu düzelt
+                    backgroundImage: AssetImage('assets/default_avatar.png'),
                   ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      petSitter.isim,
+                      "${petSitter.firstName} ${petSitter.lastName}",
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -162,13 +189,13 @@ class PetSitterCard extends StatelessWidget {
                           size: 16,
                         ),
                         Text(
-                          petSitter.puan.toString(),
+                          petSitter.rating.toString(),
                           style: const TextStyle(
                             fontSize: 14,
                           ),
                         ),
                         Text(
-                          " (${petSitter.yorumSayisi} yorum)",
+                          " (${petSitter.reviewCount} yorum)",
                           style: const TextStyle(
                             fontSize: 12,
                             color: Colors.grey,
@@ -177,7 +204,7 @@ class PetSitterCard extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      "${petSitter.fiyat} TL/saat",
+                      "${petSitter.hourlyRate} TL/saat",
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -195,42 +222,39 @@ class PetSitterCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    petSitter.sehir,
+                    petSitter.city,
                     style: const TextStyle(
                       fontSize: 14,
                     ),
                   ),
                   Text(
-                    "${petSitter.tecrube} yıl tecrübe",
+                    "${petSitter.yearsOfExperience} yıl tecrübe",
                     style: const TextStyle(
                       fontSize: 14,
                     ),
                   ),
                   Text(
-                    petSitter.hizmetler.join(", "),
+                    petSitter.skills.join(", "),
                     style: const TextStyle(
                       fontSize: 14,
                     ),
                   ),
-
-  IconButton(
-        
-        onPressed: () {
-          // Mesaj gönderme işlevi burada tetiklenir
-          // Örneğin, bir AlertDialog gösterebilirsiniz
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                shadowColor:  const Color.fromARGB(193, 104, 183, 232),
-                backgroundColor: const Color.fromARGB(193, 213, 223, 228), 
-                title: const Text("Mesaj Gönder"),
-                content: const Text("Bakıcıya mesaj göndermek istediğinize emin misiniz?"),
-                actions: [
-                  TextButton(
+                  IconButton(
+                    onPressed: () {
+                     
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            shadowColor: const Color.fromARGB(193, 104, 183, 232),
+                            backgroundColor: const Color.fromARGB(193, 213, 223, 228),
+                            title: const Text("Mesaj Gönder"),
+                            content: const Text("Bakıcıya mesaj göndermek istediğinize emin misiniz?"),
+                            actions: [
+                              TextButton(
                                 onPressed: () {
                                   Navigator.of(context).pop();
-                                  // Evet seçildiğinde mesajlaşma sayfasına git
+                                
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -240,34 +264,26 @@ class PetSitterCard extends StatelessWidget {
                                 },
                                 child: const Text("Evet"),
                               ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(); // AlertDialog'ı kapat
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); 
+                                },
+                                child: const Text("Hayır"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     },
-                    child: const Text("Hayır"),
+                    icon: const Icon(Icons.message),
+                    color: Colors.blue,
                   ),
                 ],
-              );
-            },
-          );
-        },
-        icon: const Icon(Icons.message),
-        color: Colors.blue,
-      ),
-
-
-
-                ],
               ),
-
             ),
-            // Detaylar butonu
-           
-
-          ]
-        )
+          ],
+        ),
       ),
     );
-
   }
 }

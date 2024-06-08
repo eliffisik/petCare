@@ -1,16 +1,16 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'FeedScreen.dart';
+import 'CaregiverInfoScreen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class CaregiverLogin extends StatefulWidget {
+  const CaregiverLogin({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _CaregiverLoginState createState() => _CaregiverLoginState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _CaregiverLoginState extends State<CaregiverLogin> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
-        print('Parsed response data: $data'); // Print the response data for debugging
+        print('Parsed response data: $data'); 
 
         var token = data['data']['jwToken'] ?? '';
         var userId = data['data']['id'] ?? '';
@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => FeedScreen(
+              builder: (context) => CaregiverInfoScreen(
                 token: token,
                 userId: userId,
                 userName: userName,
@@ -63,15 +63,15 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         } else {
           print('Login failed: Invalid response data');
-          // Handle invalid response data
+          // Geçersiz yanıt verilerini ele al
         }
       } else {
         print('Login failed: ${response.statusCode}');
-        // Handle login error
+        // Giriş hatasını ele al
       }
     } catch (error) {
       print('Login error: $error');
-      // Handle network or other errors
+      // Ağ veya diğer hataları ele al
     }
   }
 
@@ -130,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context); // Navigate back to the login screen
+                  Navigator.pop(context); // Geri git
                 },
                 child: const Text('Already have an account? Login here'),
               ),

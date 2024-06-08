@@ -1,23 +1,24 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'FeedScreen.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+import 'CaregiverFeedScreen.dart';
+
+class CaregiverRegistration extends StatefulWidget {
+  const CaregiverRegistration({super.key});
 
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  _CaregiverRegistrationState createState() => _CaregiverRegistrationState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _CaregiverRegistrationState extends State<CaregiverRegistration> {
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _userNameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  bool _isCaretaker = false;
+  bool _isCaretaker = true;  
 
   Future<void> registerUser(
     String firstName,
@@ -42,32 +43,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
           "userName": userName,
           "password": password,
           "confirmPassword": confirmPassword,
-          "isCaretaker": isCaretaker,
+          "isCaretaker": isCaretaker,  
         }),
       );
 
-      if (response.statusCode == 200) {
-        var responseBody = response.body;
-        print('Response body: $responseBody');
-        
-        var data = jsonDecode(responseBody);
-        var userId = data['data'];  // Only user ID is returned in data
 
-        print('Registration successful!');
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => FeedScreen(
-              token: '',  // Assuming no token is returned in the response
-              userId: userId,
-              userName: userName,
-              firstName: firstName,
-              lastName: lastName,
-              email: email,
-              isCaretaker: isCaretaker,
+      if (response.statusCode == 200) {
+         var responseBody = response.body;
+        print('Response body: $responseBody');
+          var data = jsonDecode(responseBody);
+       var userId = data['data'];  
+
+      
+        
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CaregiverFeedScreen(
+                token: '',
+                userId: userId,
+                userName: userName,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                isCaretaker: isCaretaker,
+              ),
             ),
-          ),
-        );
+          );
       } else {
         print('Registration failed: ${response.statusCode}');
         print('Response body: ${response.body}');
@@ -76,6 +78,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       print('Registration error: $error');
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -146,15 +149,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 obscureText: true,
               ),
               const SizedBox(height: 20),
-              CheckboxListTile(
-                title: const Text("Register as Caretaker"),
-                value: _isCaretaker,
-                onChanged: (bool? value) {
-                  setState(() {
-                    _isCaretaker = value ?? false;
-                  });
-                },
-              ),
               ElevatedButton(
                 onPressed: () async {
                   await registerUser(

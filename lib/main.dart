@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petcare/pages/FeedScreen.dart';
+import 'package:petcare/pages/HomeScreen.dart';
 import 'package:petcare/pages/WelcomeScreen.dart';
 
 
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
   return MaterialApp(
     debugShowCheckedModeBanner: false,
     theme:ThemeData.light(),
-  home:const FeedScreen(),
+  home:const WelcomeScreen(),
  
   );
     
