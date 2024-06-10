@@ -6,7 +6,16 @@ import 'Messaging.dart';
 import 'PetSitting.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  final String token;
+  final String userId;
+  final String userRole;
+
+  const SearchPage({
+    Key? key,
+    required this.token,
+    required this.userId,
+    required this.userRole,
+  }) : super(key: key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -23,19 +32,20 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<void> _fetchPetSitters() async {
-    final String apiUrl = "http://10.0.2.2:5000/api/CaretakerInfo?PageNumber=1&PageSize=100"; // API URL
+    final String apiUrl = "http://10.0.2.2:5000/api/CaretakerInfo?PageNumber=1&PageSize=100";
 
-    final response = await http.get(Uri.parse(apiUrl));
+    final response = await http.get(Uri.parse(apiUrl), headers: {
+      'Authorization': 'Bearer ${widget.token}',
+    });
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
-      final List<dynamic> petSittersData = data['data']; // Assuming the data is in 'data' field
+      final List<dynamic> petSittersData = data['data'];
 
       setState(() {
         petSitters = petSittersData.map((item) => PetSitter.fromJson(item)).toList();
       });
     } else {
-      // Handle error
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -108,7 +118,13 @@ class _SearchPageState extends State<SearchPage> {
                   return const SizedBox();
                 }
 
-                return PetSitterCard(petSitter: petSitter, key: UniqueKey());
+                return PetSitterCard(
+                  petSitter: petSitter,
+                  userId: widget.userId,
+                  token: widget.token,
+                  userRole: widget.userRole,
+                  key: UniqueKey(),
+                );
               },
             ),
           ),
@@ -120,8 +136,17 @@ class _SearchPageState extends State<SearchPage> {
 
 class PetSitterCard extends StatelessWidget {
   final PetSitter petSitter;
+  final String userId;
+  final String token;
+  final String userRole;
 
-  const PetSitterCard({required Key key, required this.petSitter}) : super(key: key);
+  const PetSitterCard({
+    required Key key,
+    required this.petSitter,
+    required this.userId,
+    required this.token,
+    required this.userRole,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +163,7 @@ class PetSitterCard extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
                     radius: 30,
-                    backgroundImage: AssetImage('assets/default_avatar.png'), // Replace with your image asset
+                    backgroundImage: AssetImage('assets/default_avatar.png'),
                   ),
                 ),
                 Column(
@@ -160,7 +185,7 @@ class PetSitterCard extends StatelessWidget {
                         ),
                         Text(
                           petSitter.rating.toString(),
-                          style: const TextStyle( 
+                          style: const TextStyle(
                             fontSize: 14,
                           ),
                         ),
@@ -227,7 +252,13 @@ class PetSitterCard extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => Messaging(petSitter: petSitter),
+                                      builder: (context) => Messaging(
+                                        petSitter: petSitter,
+                                        token: token,
+                                        userId: userId,
+                                        senderRole: userRole,
+                                        receiverRole: "Caretaker",
+                                      ),
                                     ),
                                   );
                                 },
@@ -235,7 +266,7 @@ class PetSitterCard extends StatelessWidget {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop(); 
+                                  Navigator.of(context).pop();
                                 },
                                 child: const Text("Hayır"),
                               ),

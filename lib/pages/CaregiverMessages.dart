@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'PetSitting.dart';  
+import 'UserPart.dart';
+
+  
 
 class Message {
   final String text;
@@ -11,16 +13,16 @@ class Message {
   Message({required this.text, required this.isSender});
 }
 
-class Messaging extends StatefulWidget {
-  final PetSitter petSitter;
+class CaregiverMessages extends StatefulWidget {
+  final User user;
   final String token;
   final String userId;
   final String senderRole;
   final String receiverRole;
 
-  const Messaging({
+  const CaregiverMessages({
     Key? key,
-    required this.petSitter,
+    required this.user,
     required this.token,
     required this.userId,
     required this.senderRole,
@@ -28,10 +30,10 @@ class Messaging extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _MessagingState createState() => _MessagingState();
+  _CaregiverMessagesState createState() => _CaregiverMessagesState();
 }
 
-class _MessagingState extends State<Messaging> {
+class _CaregiverMessagesState extends State<CaregiverMessages> {
   List<Message> _messages = [];
   final TextEditingController _controller = TextEditingController();
 
@@ -41,9 +43,9 @@ class _MessagingState extends State<Messaging> {
     fetchMessages();
   }
 
- Future<void> fetchMessages() async {
+  Future<void> fetchMessages() async {
   // Assuming you have an endpoint that retrieves messages based on two user IDs
-  final String apiUrl = "http://10.0.2.2:5000/api/Messages/conversation/${widget.userId}/${widget.petSitter.userId}";
+  final String apiUrl = "http://10.0.2.2:5000/api/Messages/conversation/${widget.userId}/${widget.user.userId}";
 
   try {
     final response = await http.get(
@@ -71,14 +73,14 @@ class _MessagingState extends State<Messaging> {
 }
 
 
- 
+
   Future<void> _sendMessage(String text) async {
   final String apiUrl = "http://10.0.2.2:5000/api/Messages";
 
   var requestBody = jsonEncode({
     "senderId": widget.userId,
     "senderRole": widget.senderRole,
-    "receiverId": widget.petSitter.userId, 
+    "receiverId": widget.user.userId, 
     "receiverRole": widget.receiverRole,
     "content": text,
   });
@@ -107,6 +109,7 @@ class _MessagingState extends State<Messaging> {
   }
 }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,10 +134,9 @@ class _MessagingState extends State<Messaging> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Bakıcı: ${widget.petSitter.firstName} ${widget.petSitter.lastName}', style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text('Şehir: ${widget.petSitter.city}'),
-                  Text('Tecrübe: ${widget.petSitter.yearsOfExperience} yıl'),
-                  Text('Hizmetler: ${widget.petSitter.skills.join(', ')}'),
+                  Text('Evcil Hayvan Sahibi: ${widget.user.firstName} ${widget.user.lastName}', style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text('Şehir: ${widget.user.city}'),
+                  
                 ],
               ),
             ),

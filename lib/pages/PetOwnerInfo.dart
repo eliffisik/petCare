@@ -3,9 +3,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'CaregiverFeedScreen.dart';
+import 'FeedScreen.dart';
 import 'PetSitting.dart';
 
-class CaregiverInfoScreen extends StatefulWidget {
+class PetOwnerInfoScreen extends StatefulWidget {
   
   final String token;
   final String userId;
@@ -15,7 +16,7 @@ class CaregiverInfoScreen extends StatefulWidget {
   final String email;
   final bool isCaretaker;
 
-  const CaregiverInfoScreen({
+  const PetOwnerInfoScreen({
     Key? key,
    
     required this.token,
@@ -28,17 +29,15 @@ class CaregiverInfoScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CaregiverInfoScreenState createState() => _CaregiverInfoScreenState();
+  _PetOwnerInfoScreenState createState() => _PetOwnerInfoScreenState();
 }
 
-class _CaregiverInfoScreenState extends State<CaregiverInfoScreen> {
+class _PetOwnerInfoScreenState extends State<PetOwnerInfoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _cityController = TextEditingController();
-  final _experienceController = TextEditingController();
-  final _rateController = TextEditingController();
-  final _skillsController = TextEditingController();
+  
 
   @override
   void initState() {
@@ -47,7 +46,7 @@ class _CaregiverInfoScreenState extends State<CaregiverInfoScreen> {
   }
 
   Future<void> _checkIfInfoExists() async {
-    final String apiUrl = "http://10.0.2.2:5000/api/CaretakerInfo/${widget.userId}";
+    final String apiUrl = "http://10.0.2.2:5000/api/PetOwnerInfo/${widget.userId}";
 
     try {
       final response = await http.get(
@@ -64,14 +63,14 @@ class _CaregiverInfoScreenState extends State<CaregiverInfoScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => CaregiverFeedScreen(
+              builder: (context) => FeedScreen(
                 token: widget.token,
                 userId: widget.userId,
                 userName: widget.userName,
                 firstName: data['data']['firstName'],
                 lastName: data['data']['lastName'],
                 email: widget.email,
-                isCaretaker: widget.isCaretaker, userRole: 'Caregiver', 
+                isCaretaker: widget.isCaretaker, userRole: '', 
               ),
             ),
           );
@@ -88,7 +87,7 @@ class _CaregiverInfoScreenState extends State<CaregiverInfoScreen> {
   }
 
   Future<void> _submitForm() async {
-    final String apiUrl = "http://10.0.2.2:5000/api/CaretakerInfo/Post";
+    final String apiUrl = "http://10.0.2.2:5000/api/PetOwnerInfo/Post";
 
     if (_formKey.currentState!.validate()) {
       final Map<String, dynamic> requestBody = {
@@ -96,9 +95,7 @@ class _CaregiverInfoScreenState extends State<CaregiverInfoScreen> {
         "firstName": _firstNameController.text,
         "lastName": _lastNameController.text,
         "city": _cityController.text,
-        "yearsOfExperience": int.parse(_experienceController.text),
-        "skills": _skillsController.text,
-        "hourlyRate": double.parse(_rateController.text),
+       
       };
 
       try {
@@ -115,14 +112,15 @@ class _CaregiverInfoScreenState extends State<CaregiverInfoScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CaregiverFeedScreen(
+              builder: (context) => FeedScreen(
                 token: widget.token,
                 userId: widget.userId,
                 userName: widget.userName,
                 firstName: widget.firstName,
                 lastName: widget.lastName,
                 email: widget.email,
-                isCaretaker: widget.isCaretaker, userRole: 'Caregiver',
+                isCaretaker: widget.isCaretaker, 
+                userRole: 'User',
               ),
             ),
           );
@@ -211,48 +209,7 @@ class _CaregiverInfoScreenState extends State<CaregiverInfoScreen> {
                 return null;
               },
             ),
-            TextFormField(
-              controller: _experienceController,
-              decoration: const InputDecoration(
-                labelText: "Years of Experience",
-                icon: Icon(Icons.timeline),
-              ),
-              keyboardType: TextInputType.number,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your years of experience';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _rateController,
-              decoration: const InputDecoration(
-                labelText: "Hourly Rate (\$)",
-                icon: Icon(Icons.money),
-              ),
-              keyboardType: TextInputType.number,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your hourly rate';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _skillsController,
-              decoration: const InputDecoration(
-                labelText: "Skills",
-                icon: Icon(Icons.list),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter the skills you offer';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 20),
+           
             ElevatedButton(
               onPressed: _submitForm,
               child: const Text("Submit Information"),
@@ -268,9 +225,6 @@ class _CaregiverInfoScreenState extends State<CaregiverInfoScreen> {
     _firstNameController.dispose();
     _lastNameController.dispose();
     _cityController.dispose();
-    _experienceController.dispose();
-    _rateController.dispose();
-    _skillsController.dispose();
     super.dispose();
   }
 }

@@ -67,6 +67,7 @@ class _CaregiverRegistrationState extends State<CaregiverRegistration> {
                 lastName: lastName,
                 email: email,
                 isCaretaker: isCaretaker,
+                userRole: 'Caregiver'
               ),
             ),
           );

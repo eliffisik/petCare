@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:petcare/pages/PetSitting.dart';
+import 'package:petcare/pages/PetAdoptionPage.dart';
 
 import '../RoundedButton.dart';
-import './PetSitting.dart';
-import 'PetAdoptionPage.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final String token;
+  final String userId;
+  final String userRole;
+
+  const HomeScreen({
+    Key? key,
+    required this.token,
+    required this.userId,
+    required this.userRole,
+  }) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -55,13 +64,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 RoundedButton(
                   btnText: 'Pet Sitting',
-                 onBtnPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>  const PetSitting()),
-                      );
-                    },
+                  onBtnPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PetSitting(
+                          token: widget.token,
+                          userId: widget.userId,
+                          userRole: widget.userRole,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -79,13 +93,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   btnText: 'Pet Adoption',
                   onBtnPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>  const PetAdoptionApp()),
-                      );
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PetAdoptionApp(),
+                      ),
+                    );
                   },
                 ),
-                 const SizedBox(height: 30),
+                const SizedBox(height: 30),
               ],
             ),
           ],

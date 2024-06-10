@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:petcare/pages/UserPart.dart';
 
 import '../RoundedButton.dart';
 import './PetSitting.dart';
 import 'PetAdoptionPage.dart';
 
 class CaregiverHomeScreen extends StatefulWidget {
-  const CaregiverHomeScreen({super.key});
+    final String token;
+  final String userId;
+ final String userRole;
+  const CaregiverHomeScreen({
+    Key? key,
+    required this.token,
+    required this.userId,
+    required this.userRole,
+  }) : super(key: key);
 
   @override
   _CaregiverHomeScreenState createState() => _CaregiverHomeScreenState();
@@ -44,7 +53,32 @@ class _CaregiverHomeScreenState extends State<CaregiverHomeScreen> {
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
             ),
-           
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  child: Image.asset(
+                    'assets/7.png',
+                    height: 150,
+                  ),
+                ),
+                RoundedButton(
+                  btnText: 'Pet Owners',
+                  onBtnPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserPart(
+                          token: widget.token,
+                          userId: widget.userId, userRole:widget.userRole,
+                        
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
             const SizedBox(height: 30),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -59,13 +93,14 @@ class _CaregiverHomeScreenState extends State<CaregiverHomeScreen> {
                   btnText: 'Pet Adoption',
                   onBtnPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>  const PetAdoptionApp()),
-                      );
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PetAdoptionApp(),
+                      ),
+                    );
                   },
                 ),
-                 const SizedBox(height: 30),
+                const SizedBox(height: 30),
               ],
             ),
           ],

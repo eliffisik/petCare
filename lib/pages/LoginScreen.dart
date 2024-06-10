@@ -1,7 +1,15 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:petcare/pages/PetOwnerInfo.dart';
 import 'FeedScreen.dart';
+
+class User {
+  final String id;
+  final String role;
+  
+  User({required this.id, required this.role});
+}
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -28,12 +36,8 @@ class _LoginScreenState extends State<LoginScreen> {
         }),
       );
 
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
-        print('Parsed response data: $data'); // Print the response data for debugging
 
         var token = data['data']['jwToken'] ?? '';
         var userId = data['data']['id'] ?? '';
@@ -41,16 +45,56 @@ class _LoginScreenState extends State<LoginScreen> {
         var firstName = data['data']['firstName'] ?? '';
         var lastName = data['data']['lastName'] ?? '';
         var email = data['data']['email'] ?? '';
-        var isCaretaker = data['data']['isCaretaker'] == true;
+        var isCaretaker = data['data']['isCaretaker'] == false;
+        var userRole = isCaretaker ? "Caretaker" : "User";
 
-        print('Parsed data: token=$token, userId=$userId, userName=$userName, firstName=$firstName, lastName=$lastName, email=$email, isCaretaker=$isCaretaker');
+         if (token.isNotEmpty && userId.isNotEmpty) {
+          _checkIfInfoExists(token, userId, userName, firstName, lastName, email, isCaretaker);
+        } else {
+          print('Login failed: Invalid response data');
+        }
+      } else {
+        print('Login failed: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Login error: $error');
+    }
+  }
 
-        if (token.isNotEmpty && userId.isNotEmpty) {
-          print('Login successful!');
-          Navigator.push(
+  Future<void> _checkIfInfoExists(String token, String userId, String userName, String firstName, String lastName, String email, bool isCaretaker) async {
+    final String apiUrl = "http://10.0.2.2:5000/api/PetOwnerInfo/$userId";
+
+    try {
+      final response = await http.get(
+        Uri.parse(apiUrl),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data != null && data['data'] != null) {
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => FeedScreen(
+                token: token,
+                userId: userId,
+                userName: userName,
+                firstName: data['data']['firstName'],
+                lastName: data['data']['lastName'],
+                email: email,
+                isCaretaker: isCaretaker, userRole:isCaretaker ? "Caretaker" : "User",
+              ),
+            ),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PetOwnerInfoScreen(
                 token: token,
                 userId: userId,
                 userName: userName,
@@ -61,17 +105,12 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           );
-        } else {
-          print('Login failed: Invalid response data');
-          // Handle invalid response data
         }
       } else {
-        print('Login failed: ${response.statusCode}');
-        // Handle login error
+        print('Failed to fetch caretaker information: ${response.statusCode}');
       }
-    } catch (error) {
-      print('Login error: $error');
-      // Handle network or other errors
+    } catch (e) {
+      print('Error fetching caretaker information: $e');
     }
   }
 

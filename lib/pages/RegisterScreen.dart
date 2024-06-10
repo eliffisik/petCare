@@ -48,8 +48,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if (response.statusCode == 200) {
         var responseBody = response.body;
-        print('Response body: $responseBody');
-        
         var data = jsonDecode(responseBody);
         var userId = data['data'];  // Only user ID is returned in data
 
@@ -65,6 +63,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               lastName: lastName,
               email: email,
               isCaretaker: isCaretaker,
+              userRole: isCaretaker ? "Caretaker" : "User",
             ),
           ),
         );
@@ -146,15 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 obscureText: true,
               ),
               const SizedBox(height: 20),
-              CheckboxListTile(
-                title: const Text("Register as Caretaker"),
-                value: _isCaretaker,
-                onChanged: (bool? value) {
-                  setState(() {
-                    _isCaretaker = value ?? false;
-                  });
-                },
-              ),
+             
               ElevatedButton(
                 onPressed: () async {
                   await registerUser(
@@ -172,7 +163,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 child: const Text('Register'),
               ),
-              const SizedBox(height: 20),
+          
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Already have an account? Login here'),

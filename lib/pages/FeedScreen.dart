@@ -13,6 +13,7 @@ class FeedScreen extends StatefulWidget {
   final String lastName;
   final String email;
   final bool isCaretaker;
+  final String userRole;
 
   const FeedScreen({
     Key? key,
@@ -23,6 +24,7 @@ class FeedScreen extends StatefulWidget {
     required this.lastName,
     required this.email,
     required this.isCaretaker,
+    required this.userRole,
   }) : super(key: key);
 
   @override
@@ -38,10 +40,17 @@ class _FeedScreenState extends State<FeedScreen> {
   void initState() {
     super.initState();
     _screens = [
-      const HomeScreen(),
+      HomeScreen(
+        token: widget.token,
+        userId: widget.userId,
+        userRole: widget.userRole,
+      ),
       AddingPet(),
-      const PostAdd(),
-      const SearchPage(),
+      SearchPage(
+        token: widget.token,
+        userId: widget.userId,
+        userRole: widget.userRole,
+      ),
       ProfilePage(
         userId: widget.userId,
         userName: widget.userName,

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PostAdd extends StatefulWidget {
-  const PostAdd({Key? key}) : super(key: key);
+  const PostAdd({Key? key, required String token, required String userId}) : super(key: key);
 
   @override
   _PostAddState createState() => _PostAddState();

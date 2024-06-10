@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:petcare/pages/AddingPet.dart';
 import 'package:petcare/pages/CaregiverHomeScreen.dart';
+import 'package:petcare/pages/CaregiverMessages.dart';
 import 'package:petcare/pages/PostAdd.dart';
 import 'package:petcare/pages/ProfilePage.dart';
 import 'package:petcare/pages/SearchPage.dart';
 
+import 'PetSitting.dart';
+
 class CaregiverFeedScreen extends StatefulWidget {
+   
   final String token;
   final String userId;
   final String userName;
@@ -13,17 +17,19 @@ class CaregiverFeedScreen extends StatefulWidget {
   final String lastName;
   final String email;
   final bool isCaretaker;
+   final String userRole;
 
   const CaregiverFeedScreen({
-    Key? key,
-    required this.token,
-    required this.userId,
-    required this.userName,
-    required this.firstName,
-    required this.lastName,
-    required this.email,
-    required this.isCaretaker,
-  }) : super(key: key);
+      Key? key,
+      required this.token,
+      required this.userId,
+      required this.userName,
+      required this.firstName,
+      required this.lastName,
+      required this.email,
+      required this.isCaretaker,   
+      required this.userRole,
+    }) : super(key: key);
 
   @override
   _CaregiverFeedScreenState createState() => _CaregiverFeedScreenState();
@@ -39,17 +45,25 @@ class _CaregiverFeedScreenState extends State<CaregiverFeedScreen> {
     super.initState();
     _screens = [
       CaregiverHomeScreen(
+ token: widget.token,
+        userId: widget.userId,
+        userRole: widget.userRole,
+
+
+      ), 
     
-      ),
+      
       AddingPet(
        
       ),
-      PostAdd(
+
+     
+   
+     
       
-      ),
-      SearchPage(
+    // SearchPage(
         
-      ),
+   //   ),
       
     ];
   }

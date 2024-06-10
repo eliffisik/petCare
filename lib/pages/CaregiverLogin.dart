@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'CaregiverInfoScreen.dart';
+import 'CaregiverFeedScreen.dart';
 
 class CaregiverLogin extends StatefulWidget {
   const CaregiverLogin({super.key});
@@ -28,13 +29,8 @@ class _CaregiverLoginState extends State<CaregiverLogin> {
         }),
       );
 
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
-        print('Parsed response data: $data'); 
-
         var token = data['data']['jwToken'] ?? '';
         var userId = data['data']['id'] ?? '';
         var userName = data['data']['userName'] ?? '';
@@ -43,10 +39,50 @@ class _CaregiverLoginState extends State<CaregiverLogin> {
         var email = data['data']['email'] ?? '';
         var isCaretaker = data['data']['isCaretaker'] == true;
 
-        print('Parsed data: token=$token, userId=$userId, userName=$userName, firstName=$firstName, lastName=$lastName, email=$email, isCaretaker=$isCaretaker');
-
         if (token.isNotEmpty && userId.isNotEmpty) {
-          print('Login successful!');
+          _checkIfInfoExists(token, userId, userName, firstName, lastName, email, isCaretaker);
+        } else {
+          print('Login failed: Invalid response data');
+        }
+      } else {
+        print('Login failed: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Login error: $error');
+    }
+  }
+
+  Future<void> _checkIfInfoExists(String token, String userId, String userName, String firstName, String lastName, String email, bool isCaretaker) async {
+    final String apiUrl = "http://10.0.2.2:5000/api/CaretakerInfo/$userId";
+
+    try {
+      final response = await http.get(
+        Uri.parse(apiUrl),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data != null && data['data'] != null) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CaregiverFeedScreen(
+                token: token,
+                userId: userId,
+                userName: userName,
+                firstName: data['data']['firstName'],
+                lastName: data['data']['lastName'],
+                email: email,
+                isCaretaker: isCaretaker,
+                userRole: 'Caregiver'
+              ),
+            ),
+          );
+        } else {
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -61,17 +97,12 @@ class _CaregiverLoginState extends State<CaregiverLogin> {
               ),
             ),
           );
-        } else {
-          print('Login failed: Invalid response data');
-          // Geçersiz yanıt verilerini ele al
         }
       } else {
-        print('Login failed: ${response.statusCode}');
-        // Giriş hatasını ele al
+        print('Failed to fetch caretaker information: ${response.statusCode}');
       }
-    } catch (error) {
-      print('Login error: $error');
-      // Ağ veya diğer hataları ele al
+    } catch (e) {
+      print('Error fetching caretaker information: $e');
     }
   }
 
@@ -130,7 +161,7 @@ class _CaregiverLoginState extends State<CaregiverLogin> {
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context); // Geri git
+                  Navigator.pop(context);
                 },
                 child: const Text('Already have an account? Login here'),
               ),
