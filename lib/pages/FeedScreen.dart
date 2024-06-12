@@ -45,7 +45,11 @@ class _FeedScreenState extends State<FeedScreen> {
         userId: widget.userId,
         userRole: widget.userRole,
       ),
-      AddingPet(),
+      AddingPet(
+
+        token: widget.token,
+        userId: widget.userId,
+      ),
       SearchPage(
         token: widget.token,
         userId: widget.userId,
@@ -83,10 +87,7 @@ class _FeedScreenState extends State<FeedScreen> {
             icon: Icon(Icons.category),
             label: '',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.post_add),
-            label: '',
-          ),
+         
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: '',

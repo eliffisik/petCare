@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:petcare/pages/LoginScreen.dart';
 import 'FeedScreen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -49,14 +50,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (response.statusCode == 200) {
         var responseBody = response.body;
         var data = jsonDecode(responseBody);
-        var userId = data['data'];  // Only user ID is returned in data
+        var userId = data['data'];  
 
         print('Registration successful!');
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => FeedScreen(
-              token: '',  // Assuming no token is returned in the response
+              token: '',  
               userId: userId,
               userName: userName,
               firstName: firstName,
@@ -79,7 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 142, 142, 149),
+   backgroundColor: const Color.fromARGB(255, 82, 82, 86),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(193, 104, 183, 232),
         centerTitle: true,
@@ -97,16 +98,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextField(
                 controller: _firstNameController,
                 decoration: const InputDecoration(
-                  labelText: 'First Name',
-                  icon: Icon(Icons.person),
+                  labelText: 'İsim',
+                  icon: Icon(Icons.person,color: Color.fromARGB(255, 182, 212, 246),),
+                  labelStyle: TextStyle(color: Color.fromARGB(255, 182, 212, 246),),
                 ),
               ),
               const SizedBox(height: 20),
               TextField(
                 controller: _lastNameController,
                 decoration: const InputDecoration(
-                  labelText: 'Last Name',
-                  icon: Icon(Icons.person),
+                  labelText: 'Soyisim',
+                  icon: Icon(Icons.person,color: Color.fromARGB(255, 182, 212, 246),),
+                  labelStyle: TextStyle(color: Color.fromARGB(255, 182, 212, 246),),
                 ),
               ),
               const SizedBox(height: 20),
@@ -114,7 +117,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 controller: _emailController,
                 decoration: const InputDecoration(
                   labelText: 'Email',
-                  icon: Icon(Icons.email),
+                  icon: Icon(Icons.email,color: Color.fromARGB(255, 182, 212, 246),),
+                  labelStyle: TextStyle(color: Color.fromARGB(255, 182, 212, 246),),
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -122,16 +126,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextField(
                 controller: _userNameController,
                 decoration: const InputDecoration(
-                  labelText: 'Username',
-                  icon: Icon(Icons.person),
+                  labelText: 'Kullanıcı Adı',
+                  icon: Icon(Icons.person,color: Color.fromARGB(255, 182, 212, 246),),
+                  labelStyle: TextStyle(color: Color.fromARGB(255, 182, 212, 246),),
                 ),
               ),
               const SizedBox(height: 20),
               TextField(
                 controller: _passwordController,
                 decoration: const InputDecoration(
-                  labelText: 'Password',
-                  icon: Icon(Icons.lock),
+                  labelText: 'Şifre',
+                  icon: Icon(Icons.lock,color: Color.fromARGB(255, 182, 212, 246),),
+                  labelStyle: TextStyle(color: Color.fromARGB(255, 182, 212, 246),),
                 ),
                 obscureText: true,
               ),
@@ -139,8 +145,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextField(
                 controller: _confirmPasswordController,
                 decoration: const InputDecoration(
-                  labelText: 'Confirm Password',
-                  icon: Icon(Icons.lock),
+                  labelText: 'Şifreyi Onayla',
+                  icon: Icon(Icons.lock,color: Color.fromARGB(255, 182, 212, 246),),
+                  labelStyle: TextStyle(color: Color.fromARGB(255, 182, 212, 246),),
                 ),
                 obscureText: true,
               ),
@@ -158,15 +165,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     _isCaretaker,
                   );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(193, 104, 183, 232),
+               style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(193, 106, 194, 249),
+                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12), 
                 ),
-                child: const Text('Register'),
+                child: const Text('Kayıt Ol'),
               ),
           
               TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Already have an account? Login here'),
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen())),
+                child: const Text('Zaten hesabınız var mı? Buradan giriş yapın'),
+                               style: TextButton.styleFrom(
+    primary: Color.fromARGB(255, 182, 212, 246), 
+  ),
+                
               ),
             ],
           ),

@@ -80,7 +80,7 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: Column(
         children: [
-          // Search bar
+          
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
@@ -106,14 +106,14 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
           ),
-          // Caregiver list
+         
           Expanded(
             child: ListView.builder(
               itemCount: petSitters.length,
               itemBuilder: (context, index) {
                 final petSitter = petSitters[index];
 
-                // Filter based on the city
+                
                 if (searchCity.isNotEmpty && !petSitter.city.toLowerCase().contains(searchCity.toLowerCase())) {
                   return const SizedBox();
                 }
@@ -209,7 +209,7 @@ class PetSitterCard extends StatelessWidget {
                 ),
               ],
             ),
-            // Caregiver details
+            
             const Divider(),
             Padding(
               padding: const EdgeInsets.all(8.0),

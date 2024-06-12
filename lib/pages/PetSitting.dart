@@ -31,7 +31,7 @@ class PetSitter {
       userId: json['userId'], 
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
-      rating: (json['rating'] ?? 0.0).toDouble(),
+      rating: (json['rating'] ?? 4.5).toDouble(),
       reviewCount: json['reviewCount'] ?? 0,
       hourlyRate: (json['hourlyRate'] ?? 0.0).toDouble(),
       city: json['city'] ?? '',
@@ -128,19 +128,29 @@ class _PetSittingState extends State<PetSitting> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
-                onChanged: (text) {
-                  setState(() {
-                    searchTerm = text;
-                  });
-                },
-                decoration: InputDecoration(
-                  hintText: "Bakıcı Ara",
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-              ),
+  onChanged: (text) {
+    setState(() {
+      searchTerm = text;
+    });
+  },
+  decoration: InputDecoration(
+    hintText: "Bakıcı Ara",
+    hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)), 
+    prefixIcon: Icon(Icons.search, color: Colors.white), 
+    enabledBorder: OutlineInputBorder( 
+      borderRadius: BorderRadius.circular(10.0),
+      borderSide: BorderSide(color: Colors.blue, width: 2.0),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10.0),
+      borderSide: BorderSide(color: Colors.blue, width: 2.0),
+    ),
+    labelStyle: TextStyle(color: Colors.white), 
+  ),
+  style: TextStyle(color: Colors.white), 
+  cursorColor: Colors.white, 
+),
+
             ),
             ListView.builder(
               shrinkWrap: true,
@@ -188,7 +198,7 @@ class PetSitterCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
-        color: const Color.fromARGB(193, 170, 191, 205),
+        color:Color.fromARGB(255, 217, 225, 235),
         elevation: 4,
         child: Column(
           children: [

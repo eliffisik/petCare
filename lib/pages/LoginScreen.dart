@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:petcare/pages/PetOwnerInfo.dart';
 import 'FeedScreen.dart';
+import 'RegisterScreen.dart';
 
 class User {
   final String id;
@@ -117,7 +118,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 142, 142, 149),
+    //  const Color.fromARGB(255, 142, 142, 149),
+      backgroundColor: const Color.fromARGB(255, 82, 82, 86),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(193, 104, 183, 232),
         centerTitle: true,
@@ -137,22 +139,32 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  icon: Icon(Icons.email),
-                ),
-                keyboardType: TextInputType.emailAddress,
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: _passwordController,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  icon: Icon(Icons.lock),
-                ),
-                obscureText: true,
-              ),
+  controller: _emailController,
+  decoration: InputDecoration(
+    labelText: 'Email',
+    icon: Icon(Icons.email, color: Color.fromARGB(255, 182, 212, 246)),
+    labelStyle: TextStyle(color: Color.fromARGB(255, 182, 212, 246)),
+    
+    hintStyle: TextStyle(color: Colors.white),
+  ),
+  keyboardType: TextInputType.emailAddress,
+  style: TextStyle(color: Colors.white), 
+),
+const SizedBox(height: 20),
+TextField(
+  controller: _passwordController,
+  decoration: InputDecoration(
+    labelText: 'Şifre',
+    icon: Icon(Icons.lock, color: Color.fromARGB(255, 182, 212, 246)),
+    labelStyle: TextStyle(color: Color.fromARGB(255, 182, 212, 246)),
+    // Adding hintStyle to ensure placeholder text is also styled
+    hintStyle: TextStyle(color: Colors.white),
+  ),
+  obscureText: true,
+  style: TextStyle(color: Colors.white), 
+),
+const SizedBox(height: 20),
+
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
@@ -162,16 +174,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   await loginUser(email, password);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(193, 104, 183, 232),
+                  backgroundColor: Color.fromARGB(193, 106, 194, 249),
+                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12), 
                 ),
-                child: const Text('Login'),
+                child: const Text('Giriş Yap'),
               ),
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context); // Navigate back to the login screen
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()));
                 },
-                child: const Text('Already have an account? Login here'),
+                child: const Text('Hesabınız yok mu? Kayıt olun'),
+                 style: TextButton.styleFrom(
+    primary: Color.fromARGB(255, 182, 212, 246), 
+  ),
+                
               ),
             ],
           ),

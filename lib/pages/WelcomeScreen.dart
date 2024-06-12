@@ -38,7 +38,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               Column(
                 children: [
                   RoundedButton(
-                    btnText: 'LOG IN',
+                    btnText: 'GİRİŞ YAP',
                     onBtnPressed: () {
                       Navigator.push(
                         context,
@@ -51,7 +51,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     height: 20,
                   ),
                   RoundedButton(
-                    btnText: 'Create account',
+                    btnText: 'Hesap Oluştur',
                     onBtnPressed: () {
                       Navigator.push(
                         context,
@@ -64,7 +64,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     height: 20,
                   ),
                   RoundedButton(
-                    btnText: 'Be a caregiver',
+                    btnText: 'Bakıcı Ol',
                     onBtnPressed: () {
                       Navigator.push(
                         context,

@@ -78,7 +78,7 @@ class _PostAddState extends State<PostAdd> {
                         setState(() {});
                       },
                       icon: Column(
-                        mainAxisSize: MainAxisSize.min, // Center icon vertically
+                        mainAxisSize: MainAxisSize.min, 
                         children: [
                           const Icon(Icons.add_photo_alternate),
                         

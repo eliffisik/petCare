@@ -44,7 +44,7 @@ class _CaregiverMessagesState extends State<CaregiverMessages> {
   }
 
   Future<void> fetchMessages() async {
-  // Assuming you have an endpoint that retrieves messages based on two user IDs
+  
   final String apiUrl = "http://10.0.2.2:5000/api/Messages/conversation/${widget.userId}/${widget.user.userId}";
 
   try {
@@ -102,7 +102,7 @@ class _CaregiverMessagesState extends State<CaregiverMessages> {
       _controller.clear();
     } else {
       print('Failed to send message: ${response.statusCode}');
-      print('Response body: ${response.body}'); // Check API error response
+      print('Response body: ${response.body}'); 
     }
   } catch (e) {
     print('Error sending message: $e');

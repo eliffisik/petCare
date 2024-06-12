@@ -54,16 +54,19 @@ class _CaregiverFeedScreenState extends State<CaregiverFeedScreen> {
     
       
       AddingPet(
-       
+       token: widget.token,
+        userId: widget.userId,
       ),
 
-     
-   
-     
-      
-    // SearchPage(
-        
-   //   ),
+      ProfilePage(
+        userId: widget.userId,
+        userName: widget.userName,
+        firstName: widget.firstName,
+        lastName: widget.lastName,
+        email: widget.email,
+        isCaretaker: widget.isCaretaker,
+      ),
+  
       
     ];
   }
@@ -89,14 +92,7 @@ class _CaregiverFeedScreenState extends State<CaregiverFeedScreen> {
             icon: Icon(Icons.category),
             label: '',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.post_add),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: '',
-          ),
+          
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: '',

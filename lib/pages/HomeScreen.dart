@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 250,
             ),
             const Text(
-              'What are you looking for?',
+              'Ne arıyorsunuz?',
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 RoundedButton(
-                  btnText: 'Pet Sitting',
+                  btnText: 'Evcil Hayvan Bakıcısı Bul',
                   onBtnPressed: () {
                     Navigator.push(
                       context,
@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 RoundedButton(
-                  btnText: 'Pet Adoption',
+                  btnText: 'Bir Evcil Hayvanı Sahiplen',
                   onBtnPressed: () {
                     Navigator.push(
                       context,
